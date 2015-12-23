@@ -11,6 +11,7 @@ class mapperdbthread : public QThread
 {
 public:
     mapperdbthread();
+    ~mapperdbthread();
 
     void run();
     void stopThread();
@@ -29,6 +30,8 @@ private:
     mapper::Db db;
     std::vector<QString> devlist;
     std::vector<QString> outSigsList;
+
+   std::vector<mapper::Map*> myMaps;
 
 };
 

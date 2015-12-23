@@ -25,6 +25,17 @@ void mapperdbthread::stopThread()
     myLock.unlock();
 }
 
+mapperdbthread::~mapperdbthread()
+{
+    while (myMaps.size())
+    {
+        mapper::Map* map = myMaps.at(myMaps.size()-1);
+        map->unmap();
+        delete map;
+        myMaps.pop_back();
+    }
+}
+
 
 const std::vector<QString> mapperdbthread::getDeviceList()
 {
@@ -89,5 +100,8 @@ void mapperdbthread::makeMap(QString sdev, QString ddev, QString ssig, QString d
             qDebug()<<"found dst signal " <<sig_name<< "from device " << sdev;
         }
     }
-    mapper::Map map(src_sig, dst_sig);
+    mapper::Map* map = new mapper::Map(srcdev.signal(ssig.toStdString()),
+                                       dstdev.signal(dsig.toStdString()));
+    myMaps.push_back(map);
+
 }

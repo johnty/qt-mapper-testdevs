@@ -1,6 +1,6 @@
 #include "mapperdbthread.h"
 
-mapperdbthread::mapperdbthread() :db(SUBSCRIBE_ALL)
+mapperdbthread::mapperdbthread() :db(MAPPER_SUBSCRIBE_ALL)
 {
 
 }
@@ -61,10 +61,9 @@ const std::vector<QString> mapperdbthread::getSigList(QString devname, mapper_di
 void mapperdbthread::makeMap(QString sdev, QString ddev, QString ssig, QString dsig)
 {
     mapper::Device srcdev = db.device_by_name(sdev.toStdString());
-
     mapper::Signal *src_sig = NULL;
 
-    mapper::Signal::Query qry1 = srcdev.signals(MAPPER_OUTGOING);
+    mapper::Signal::Query qry1 = srcdev.signals(MAPPER_DIR_OUTGOING);
     for (; qry1 != qry1.end(); qry1++)
     {
         mapper::Signal sig = *qry1;
@@ -76,9 +75,10 @@ void mapperdbthread::makeMap(QString sdev, QString ddev, QString ssig, QString d
         }
     }
 
-    mapper::Signal *dst_sig = NULL;
     mapper::Device dstdev = db.device_by_name(ddev.toStdString());
-    mapper::Signal::Query qry2 = dstdev.signals(MAPPER_INCOMING);
+    mapper::Signal *dst_sig = NULL;
+
+    mapper::Signal::Query qry2 = dstdev.signals(MAPPER_DIR_INCOMING);
     for (; qry2 != qry2.end(); qry2++)
     {
         mapper::Signal sig = *qry2;
@@ -89,7 +89,5 @@ void mapperdbthread::makeMap(QString sdev, QString ddev, QString ssig, QString d
             qDebug()<<"found dst signal " <<sig_name<< "from device " << sdev;
         }
     }
-
-    //mapper::Map map(src_sig, dst_sig); nope...
-
+    mapper::Map map(src_sig, dst_sig);
 }

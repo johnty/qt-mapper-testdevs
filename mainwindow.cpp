@@ -144,7 +144,7 @@ void MainWindow::on_comboBoxSrc_currentIndexChanged(const QString &arg1)
         return; //hackety hack
 
     ui->listWidgetSrc->clear();
-    std::vector<QString> list = mapperDb->getSigList(arg1, MAPPER_OUTGOING);
+    std::vector<QString> list = mapperDb->getSigList(arg1, MAPPER_DIR_OUTGOING);
     for (const auto signame : list)
     {
         qDebug() <<"device: " << arg1 <<" out signal: " << signame;
@@ -162,7 +162,7 @@ void MainWindow::on_comboBoxDst_currentIndexChanged(const QString &arg1)
     if (arg1 == "")
         return; //hackety hack
     ui->listWidgetDst->clear();
-    std::vector<QString> list = mapperDb->getSigList(arg1, MAPPER_INCOMING);
+    std::vector<QString> list = mapperDb->getSigList(arg1, MAPPER_DIR_INCOMING);
     for (const auto signame : list)
     {
         qDebug() <<"device: " << arg1 <<" in signal: " << signame;

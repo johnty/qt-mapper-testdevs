@@ -49,7 +49,7 @@ void testmapperdevice::run()
     {
         for (int i=0; i<numOutputs; i++)
         {
-            Signal::Query qry = myDevPtr->signals(MAPPER_OUTGOING);
+            Signal::Query qry = myDevPtr->signals(MAPPER_DIR_OUTGOING);
             for (; qry != qry.end(); qry++)
             {
                 Signal sig = *qry;
